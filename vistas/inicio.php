@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+  <?php require_once 'includes/head.php';
+      if(isset($_COOKIE['activado'])){//mandará a index.php a los usuarios no activados
+        if($_COOKIE['activado']==false){header("Location: index.php");}
+      }else{
+        header("Location: index.php");
+      }
+    ?>
   <meta charset="utf-8">
   <title>Gimnasio</title>
 
@@ -58,7 +65,7 @@
         <h1 class="cover-heading">Bienvenido</h1>
         <p class="lead">Esta es la página de inicio del gimnasio de la práctica de DWES</p>
         <p class="lead">
-          <a href="#" class="btn btn-lg btn-secondary">PDF</a>
+          <a href="index.php?accion=hacerpdf" class="btn btn-lg btn-secondary">PDF</a>
         </p>
       </main>
 

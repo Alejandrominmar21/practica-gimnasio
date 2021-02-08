@@ -1,6 +1,12 @@
 <html>
   <head>
-    <?php require_once 'includes/head.php' ?>
+    <?php require_once 'includes/head.php';
+      if(isset($_COOKIE['activado'])){//mandará a index.php a los usuarios no activados
+        if($_COOKIE['activado']==false){header("Location: index.php");}
+      }else{
+        header("Location: index.php");
+      }
+    ?>
   </head>
   <body class="cuerpo" style="background-color:lightsteelblue">
   <header>

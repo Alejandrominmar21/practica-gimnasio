@@ -60,7 +60,8 @@
             <td><?= $d["telefono"] ?></td>
             <td><?= $d["direccion"] ?></td>
             <td><?= $d["rol_id"] ?></td>              
-            <td><a href="index.php?accion=actuser&id=<?= $d['id'] ?>">Editar </a><a href="index.php?accion=deluser&id=<?= $d['id'] ?>">Eliminar</a></td>
+            <td><a href="index.php?accion=actuser&id=<?= $d['id'] ?>">Editar </a><a href="index.php?accion=deluser&id=<?= $d['id'] ?>">Eliminar</a>
+              <?php if($d["rol_id"]==1){echo"<a href='index.php?accion=activaruser&id=". $d['id'] ."'> Activar </a></td>";} ?>
           </tr>
         <?php endforeach; ?>
       </table>

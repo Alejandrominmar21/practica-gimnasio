@@ -2,6 +2,10 @@
 <html lang="en">
 
 <head>
+<?php 
+          if(isset($_COOKIE['admin'])){
+            if($_COOKIE['admin']==false){header("Location: index.php");}
+          }else{header("Location: index.php");}  ?>
   <title>Nuevo tramo</title>
 
   <!-- Bootstrap core CSS -->

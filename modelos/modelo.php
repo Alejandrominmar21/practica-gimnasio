@@ -60,7 +60,7 @@ class modelo {
     
     $consulta = "SELECT * FROM usuarios WHERE email='" . $emailCliente . "' AND password='" . $claveCliente . "'";
     $resultsquery = $this->conexion->query($consulta);
-    
+      
     return $resultsquery->rowCount();
     
   }
@@ -74,7 +74,25 @@ class modelo {
     $resultsquery = $this->conexion->query($consulta);
     $usuario = $resultsquery->fetchAll(PDO::FETCH_ASSOC);
     
-    if($usuario[0]["rol_id"] == 0 ){
+    if($usuario[0]["rol_id"] == 0  || $usuario[0]["rol_id"] == 1){
+      return false;
+    }else{
+      return true;
+    }    
+    
+  }
+
+  public function estaactivado(){
+    
+    $emailCliente = $_POST['email'];
+    $claveCliente = $_POST['contraseña'];
+
+    
+    $consulta = "SELECT * FROM usuarios WHERE email='" . $emailCliente . "' AND password='" . $claveCliente . "'";
+    $resultsquery = $this->conexion->query($consulta);
+    $usuario = $resultsquery->fetchAll(PDO::FETCH_ASSOC);
+    
+    if($usuario[0]["rol_id"] == 1 ){
       return false;
     }else{
       return true;
@@ -181,7 +199,7 @@ class modelo {
           'imagen' => "ninguna",
           'nif' => $datos["nif"],         
           'id' => random_int(0,99999999),
-          'rol_id' => 0,
+          'rol_id' => 1,
           'telefono' => $datos["telefono"]
           
       ]); //Supervisamos si la inserción se realizó correctamente... 
@@ -567,6 +585,37 @@ public function addact($datos) {
     $this->conexion->rollback(); // rollback() se revierten los cambios realizados durante la transacción
     $return["error"] = $ex->getMessage();
     //die();
+  }
+
+  return $return;
+}
+
+public function activaruser($id) {
+  $return = [
+      "correcto" => FALSE,
+      "error" => NULL
+  ];
+
+  try {
+    //Inicializamos la transacción
+    $this->conexion->beginTransaction();
+    //Definimos la instrucción SQL parametrizada 
+    $sql = "UPDATE usuarios SET rol_id=:rol_id WHERE id=:id";
+    $query = $this->conexion->prepare($sql);
+    $query->execute([
+        'id' => $id,
+        'rol_id'=> 0      
+        
+    ]);
+    //Supervisamos si la inserción se realizó correctamente... 
+    if ($query) {
+      $this->conexion->commit();  // commit() confirma los cambios realizados durante la transacción
+      $return["correcto"] = TRUE;
+      header("Location: index.php");
+    }// o no :(
+  } catch (PDOException $ex) {
+    $this->conexion->rollback(); // rollback() se revierten los cambios realizados durante la transacción
+    $return["error"] = $ex->getMessage();
   }
 
   return $return;

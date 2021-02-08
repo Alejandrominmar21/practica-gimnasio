@@ -1,9 +1,9 @@
 <html>
   <head>
     <?php require_once 'includes/head.php';  
-            if(isset($_COOKIE['admin'])){
-                if($_COOKIE['admin']==false){header("Location: index.php");}
-            }else{header("Location: index.php");}  ?>
+          if(isset($_COOKIE['admin'])){
+            if($_COOKIE['admin']==false){header("Location: index.php");}
+          }else{header("Location: index.php");}  ?>
   </head>
   <body class="cuerpo" style="background-color:lightsteelblue">
   <header>

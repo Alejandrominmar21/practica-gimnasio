@@ -82,9 +82,17 @@ class controlador
           if($admin==true){
             setcookie("admin", true,0);
             include_once 'vistas/inicioadmin.php';
-          }else{
+          }else{//Si no es admin comprobamos si está activado
             setcookie("admin", false,0);
-            include_once 'vistas/inicio.php';
+            //TODO
+            $activado = $this->modelo->estaactivado();
+            if($activado==true){
+              setcookie("activado", true,0);
+              include_once 'vistas/inicio.php';
+            }else{
+              setcookie("activado", false,0);
+              include_once 'vistas/inicio.php';
+            }
           }
          
         } else {        
@@ -743,4 +751,15 @@ class controlador
     $this->mostraract();
     
   }
+
+  public function hacerpdf(){
+   include "pdf.php";
+  }
+
+  public function activaruser(){
+    $id = $_GET["id"];
+    $this->modelo->activaruser($id);
+  }
+  
+  
 }
